@@ -3,24 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:projet_d_integration/Screens/statistics.dart';
 import 'package:projet_d_integration/Screens/home.dart';
 import 'package:projet_d_integration/Screens/add.dart';
+import 'package:projet_d_integration/Screens/expenses_categories_chart.dart';
 
+import 'package:projet_d_integration/Screens/Catégories.dart';
+import 'package:projet_d_integration/Services/TransctionService.dart';
+import 'package:projet_d_integration/data/Transaction.dart';
 
 class Bottom extends StatefulWidget {
   const Bottom({Key? key}) : super(key: key);
 
   @override
   State<Bottom> createState() => _BottomState();
+
 }
 
+void test() async {
+  List<transaction> transactions = await TransactionService.getAllTransactions();
+  transactions.forEach((element) {
+    print("--88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888");
+    print(element);
+  });
+}
 class _BottomState extends State<Bottom> {
   int index_color = 0;
-  List Screen = [Home(), Statistics(), Home(), Statistics()];
+  List Screen = [Home(), Statistics(), TransactionList(), TotalChart()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Screen[index_color],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          test();
          Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => Add_Screen()));
         },

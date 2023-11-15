@@ -3,22 +3,22 @@ import 'package:projet_d_integration/data/listdata.dart';
 
 int totals = 0;
 
-int total() {
-  //var history2 = box.values.toList();
-  List<transaction> history2=geter();
+int total(List<transaction> history2) {
   List a = [0, 0];
+  print(history2.length);
+
   for (var i = 0; i < history2.length; i++) {
     a.add(history2[i].type == 'Income'
         ? int.parse(history2[i].montant.toString())
         : int.parse(history2[i].montant.toString()) * -1);
+    print(history2[i].montant);
   }
   totals = a.reduce((value, element) => value + element);
   return totals;
 }
 
-int income() {
+int income(List<transaction> history2) {
   //var history2 = box.values.toList();
-  List<transaction> history2=geter();
 
   List a = [0, 0];
   for (var i = 0; i < history2.length; i++) {
@@ -27,9 +27,8 @@ int income() {
   totals = a.reduce((value, element) => value + element);
   return totals;
 }
-int expenses() {
+int expenses(List<transaction> history2) {
   //var history2 = box.values.toList();
-  List<transaction> history2=geter();
 
   List a = [0, 0];
   for (var i = 0; i < history2.length; i++) {
@@ -39,55 +38,51 @@ int expenses() {
   return totals;
 }
 
-List<transaction> today() {
+List<transaction> today(List<transaction> history2) {
   List<transaction> a = [];
-  List<transaction> history2=geter();
   //var history2 = box.values.toList();
   DateTime date = new DateTime.now();
   for (var i = 0; i < history2.length; i++) {
-    if (history2[i].time?.day == date.day) {
+    if (history2[i].date?.day == date.day) {
       a.add(history2[i]);
     }
   }
   return a;
 }
-List<transaction> week() {
+List<transaction> week(List<transaction> history2) {
   List<transaction> a = [];
   DateTime date = new DateTime.now();
-  List<transaction> history2=geter();
 
   //var history2 = box.values.toList();
   for (var i = 0; i < history2.length; i++) {
-    if (date.day - 7 <= history2[i].time!.day &&
-        history2[i].time!.day <= date.day) {
-      a.add(history2[i]);
-    }
-  }
-  return a;
-}
-
-List<transaction> month() {
-  List<transaction> a = [];
-  List<transaction> history2=geter();
-
-  //var history2 = box.values.toList();
-  DateTime date = new DateTime.now();
-  for (var i = 0; i < history2.length; i++) {
-    if (history2[i].time!.month == date.month) {
+    if (date.day - 7 <= history2[i].date!.day &&
+        history2[i].date!.day <= date.day) {
       a.add(history2[i]);
     }
   }
   return a;
 }
 
-List<transaction> year() {
+List<transaction> month(List<transaction> history2) {
   List<transaction> a = [];
-  List<transaction> history2=geter();
 
   //var history2 = box.values.toList();
   DateTime date = new DateTime.now();
   for (var i = 0; i < history2.length; i++) {
-    if (history2[i].time!.year == date.year) {
+    if (history2[i].date!.month == date.month) {
+      a.add(history2[i]);
+    }
+  }
+  return a;
+}
+
+List<transaction> year(List<transaction> history2) {
+  List<transaction> a = [];
+
+  //var history2 = box.values.toList();
+  DateTime date = new DateTime.now();
+  for (var i = 0; i < history2.length; i++) {
+    if (history2[i].date!.year == date.year) {
       a.add(history2[i]);
     }
   }
@@ -112,12 +107,12 @@ List time(List<transaction> history2, bool hour) {
   for (var c = 0; c < history2.length; c++) {
     for (var i = c; i < history2.length; i++) {
       if (hour) {
-        if (history2[i].time!.hour == history2[c].time!.hour) {
+        if (history2[i].date!.hour == history2[c].date!.hour) {
           a.add(history2[i]);
           counter = i;
         }
       } else {
-        if (history2[i].time!.day == history2[c].time!.day) {
+        if (history2[i].date!.day == history2[c].date!.day) {
           a.add(history2[i]);
           counter = i;
         }

@@ -12,7 +12,20 @@ class Chart extends StatefulWidget {
   State<Chart> createState() => _ChartState();
 }
 class _ChartState extends State<Chart> {
-  List<transaction> a=geter();
+  List<transaction> a = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    List<transaction> fetchedTransactions = await geter();
+    setState(() {
+      a = fetchedTransactions;
+    });
+  }
   bool b = true;
   bool j = true;
 
@@ -20,22 +33,22 @@ class _ChartState extends State<Chart> {
   Widget build(BuildContext context) {
     switch (widget.indexx) {
       case 0:
-        a = today();
+        a = today(a);
         b = true;
         j = true;
         break;
       case 1:
-        a = week();
+        a = week(a);
         b = false;
         j = true;
         break;
       case 2:
-        a = month();
+        a = month(a);
         b = false;
         j = true;
         break;
       case 3:
-        a = year();
+        a = year(a);
 
         j = false;
         break;
@@ -55,9 +68,9 @@ class _ChartState extends State<Chart> {
                 return SalesData(
                     j
                         ? b
-                        ? a![index].time!.hour.toString()
-                        : a![index].time!.day.toString()
-                        : a![index].time!.month.toString(),
+                        ? a![index].date!.hour.toString()
+                        : a![index].date!.day.toString()
+                        : a![index].date!.month.toString(),
                     b
                         ? index > 0
                         ? time(a!, true)[index] + time(a!, true)[index - 1]

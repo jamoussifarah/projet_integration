@@ -14,7 +14,20 @@ class Statistics extends StatefulWidget {
 ValueNotifier kj=ValueNotifier(0);
 class _StatisticsState extends State<Statistics>
 {
-  List<transaction> a = geter();
+  List<transaction> a = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    List<transaction> fetchedTransactions = await geter();
+    setState(() {
+      a = fetchedTransactions;
+    });
+  }
   List day = ['Day', 'Week', 'Month', 'Year'];
   int index_color = 0;
   @override
@@ -123,13 +136,13 @@ class _StatisticsState extends State<Statistics>
                      ),
                      subtitle: Text(
 
-                       ' ${a[index].time!.year}-${a[index].time!.day}-${a[index].time!.month}',
+                       ' ${a[index].date!.year}-${a[index].date!.day}-${a[index].date!.month}',
                        style: TextStyle(
                          fontWeight: FontWeight.w600,
                        ),
                      ),
                      trailing: Text(
-                       a[index].montant!,
+                       a[index].montant! as String,
                        style: TextStyle(
                          fontWeight: FontWeight.w600,
                          fontSize: 19,
