@@ -1,43 +1,39 @@
-
 class transaction {
-  DateTime? date;
+   DateTime date; // Assurez-vous d'importer la classe LocalDateTime si nécessaire
   String? montant;
   String? type;
-  String ?categorie;
+  String? categorie;
+  String? nom;
 
-transaction(time,type,montant,categorie)
-  {
-    this.date=time;
-    this.type=type;
-    this.montant=montant;
-    this.categorie=categorie;
-  }
+  transaction({
+    required this.date,
+    required this.type,
+    required this.montant,
+    required this.categorie,
+    required this.nom
+  });
 
   factory transaction.fromJson(Map<String, dynamic> json) {
+    return transaction(
+      date: DateTime.parse(json['date']),
+      type: json['type'].toString(),
+      montant: json['montant'].toString(),
+      categorie: json['categorieName'].toString(),
+      nom:json['t_nom'].toString()
+    );
+  }
 
-  return transaction(
-     //json['time'] != null ? DateTime.parse(json['time']) : null,
-        DateTime.parse(json['date']).toLocal()??'',
-       json['type'].toString()??'',
-     json['montant'] ??'',
-    json['categorieName']??''
-  );
-}
   Map<String, dynamic> toJson() {
-
     final Map<String, dynamic> data = {};
-      if (date != null)data['date']= date!.toIso8601String();
-      if (type != null) data['type'] = type.toString();
-      if (montant != null) data['montant'] =montant.toString();
-      if (categorie != null) data['categorieName']= categorie.toString();
+    if (date != null) data['date'] = date.toString(); // Assurez-vous que cette conversion est correcte
+    if (type != null) data['type'] = type!;
+    if (montant != null) data['montant'] = montant!;
+    if (categorie != null) data['categorieName'] = categorie!;
     return data;
   }
 
-
-
   @override
   String toString() {
-    return 'Transaction{ date: $date, montant: $montant, type: $type, ctegorie:$categorie}';
+    return 'Transaction{ date: $date, montant: $montant, type: $type, categorie: $categorie}';
   }
-
 }

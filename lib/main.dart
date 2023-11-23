@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:projet_d_integration/Screens/home.dart';
+import 'package:projet_d_integration/Screens/splash/splash_screen.dart';
+import 'package:projet_d_integration/routes.dart';
 import 'package:projet_d_integration/widgets/bottomnavigationbar.dart';
+import 'package:projet_d_integration/widgets/detailTransaction.dart';
 
 import 'Screens/statistics.dart';
-
+import 'theme.dart';
 void main() async {
   /*await Hive.initFlutter();
   Hive.registerAdapter(AdddataAdapter());
@@ -18,7 +21,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Bottom(),
+      theme: AppTheme.lightTheme(context),
+      //home: Bottom(),
+      initialRoute:SplashScreen.routeName,
+      routes: routes,
     );
   }
 }
+
+

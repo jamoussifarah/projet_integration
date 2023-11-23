@@ -47,6 +47,7 @@ List<transaction> today(List<transaction> history2) {
       a.add(history2[i]);
     }
   }
+  print("today"+a.toString());
   return a;
 }
 List<transaction> week(List<transaction> history2) {
@@ -55,11 +56,19 @@ List<transaction> week(List<transaction> history2) {
 
   //var history2 = box.values.toList();
   for (var i = 0; i < history2.length; i++) {
+
     if (date.day - 7 <= history2[i].date!.day &&
         history2[i].date!.day <= date.day) {
+      print("la date:");
+      print( history2[i].date);
+      print("l annee:");
+      print(history2[i].date!.day);
       a.add(history2[i]);
     }
+    print("today"+a.toString());
+
   }
+
   return a;
 }
 
@@ -68,7 +77,9 @@ List<transaction> month(List<transaction> history2) {
 
   //var history2 = box.values.toList();
   DateTime date = new DateTime.now();
+  print(history2.length.toString());
   for (var i = 0; i < history2.length; i++) {
+
     if (history2[i].date!.month == date.month) {
       a.add(history2[i]);
     }
@@ -82,10 +93,12 @@ List<transaction> year(List<transaction> history2) {
   //var history2 = box.values.toList();
   DateTime date = new DateTime.now();
   for (var i = 0; i < history2.length; i++) {
+
     if (history2[i].date!.year == date.year) {
       a.add(history2[i]);
     }
   }
+
   return a;
 }
 

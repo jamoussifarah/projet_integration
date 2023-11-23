@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:projet_d_integration/Screens/statistics.dart';
 import 'package:projet_d_integration/Screens/home.dart';
 import 'package:projet_d_integration/Screens/add.dart';
-import 'package:projet_d_integration/Screens/expenses_categories_chart.dart';
-
+import 'package:projet_d_integration/widgets/expenses_categories_chart.dart';
+import 'package:projet_d_integration/constants.dart';
 import 'package:projet_d_integration/Screens/Catégories.dart';
+import 'package:projet_d_integration/Screens/profile/profile_screen.dart';
 import 'package:projet_d_integration/Services/TransctionService.dart';
 import 'package:projet_d_integration/data/Transaction.dart';
 
 class Bottom extends StatefulWidget {
   const Bottom({Key? key}) : super(key: key);
-
+  static String routeName = "/";
   @override
   State<Bottom> createState() => _BottomState();
 
 }
-
+const Color inActiveIconColor = Color(0xFFB6B6B6);
 void test() async {
   List<transaction> transactions = await TransactionService.getAllTransactions();
-  transactions.forEach((element) {
-    print("--88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888");
-    print(element);
-  });
+
 }
 class _BottomState extends State<Bottom> {
   int index_color = 0;
-  List Screen = [Home(), Statistics(), TransactionList(), TotalChart()];
+  List Screen = [Home(), Statistics(), TransactionList(), ProfileScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +36,7 @@ class _BottomState extends State<Bottom> {
               .push(MaterialPageRoute(builder: (context) => Add_Screen()));
         },
         child: Icon(Icons.add),
-        backgroundColor: Color(0xff368983),
+        backgroundColor: kPrimaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -53,13 +51,11 @@ class _BottomState extends State<Bottom> {
                   setState(() {
                     index_color = 0;
                   });
-                },
-                child: Icon(
-                  Icons.home,
-                  size: 30,
-                  color: index_color == 0 ? Color(0xff368983) : Colors.grey,
-                ),
-              ),
+                },child: Icon(
+                Icons.home,
+                size: 30,
+                color: index_color == 0 ? kPrimaryColor : inActiveIconColor,
+              ),),
               GestureDetector(
                 onTap: () {
                   setState(() {
@@ -69,7 +65,7 @@ class _BottomState extends State<Bottom> {
                 child: Icon(
                   Icons.bar_chart_outlined,
                   size: 30,
-                  color: index_color == 1 ? Color(0xff368983) : Colors.grey,
+                  color: index_color == 1 ? kPrimaryColor : inActiveIconColor,
                 ),
               ),
               SizedBox(width: 10),
@@ -82,7 +78,7 @@ class _BottomState extends State<Bottom> {
                 child: Icon(
                   Icons.account_balance_wallet_outlined,
                   size: 30,
-                  color: index_color == 2 ? Color(0xff368983) : Colors.grey,
+                  color: index_color == 2 ? kPrimaryColor : inActiveIconColor,
                 ),
               ),
               GestureDetector(
@@ -94,7 +90,7 @@ class _BottomState extends State<Bottom> {
                 child: Icon(
                   Icons.person_outlined,
                   size: 30,
-                  color: index_color == 3 ? Color(0xff368983) : Colors.grey,
+                  color: index_color == 3 ? kPrimaryColor : inActiveIconColor,
                 ),
               ),
             ],

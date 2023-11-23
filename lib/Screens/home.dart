@@ -3,6 +3,10 @@ import 'package:projet_d_integration/data/listdata.dart';
 import 'package:projet_d_integration/data/utility.dart';
 import 'package:projet_d_integration/data/Transaction.dart';
 import 'package:projet_d_integration/Services/TransctionService.dart';
+import 'package:projet_d_integration/constants.dart';
+import 'package:projet_d_integration/widgets/detailTransaction.dart';
+import '../../../constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Home extends StatelessWidget {
   List<transaction> a = [];
@@ -40,7 +44,7 @@ class Home extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 19,
-                              color: Colors.black,
+                              color: kTextColor,
                             ),
                           ),
                           Text(
@@ -48,7 +52,7 @@ class Home extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
-                              color: Colors.grey,
+                              color: kSecondaryColor,
                             ),
                           ),
                         ],
@@ -56,6 +60,69 @@ class Home extends StatelessWidget {
                     ),
                   ),
                   SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Dismissible(
+                            key: Key(index.toString()),
+                            direction: DismissDirection.endToStart,
+                            onDismissed: (direction) {
+                              a.removeAt(index);
+                            },
+                            background: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFFFE6E6),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Spacer(),
+                                  SvgPicture.asset("icons/Trash.svg"),
+                                ],
+                              ),
+                            ),
+                            child: ListTile(
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.asset(
+                                  'images/${a[index].categorie}.png',
+                                  height: 40,
+                                ),
+                              ),
+                              title: Text(
+                                a[index].categorie!,
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              subtitle: Text(
+                                '${[a[index].date!.weekday - 1]}  ${a[index].date!.year}-${a[index].date!.month}-${a[index].date!.day}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              trailing: Text(
+                                '${a[index].montant} Dt',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 19,
+                                  color: a[index].type == 'Income'
+                                      ? Colors.greenAccent
+                                      : kPrimaryColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: a.length,
+                    ),
+                  ),
+
+                  /* SliverList(
                     delegate: SliverChildBuilderDelegate(
                           (context, index) {
                         return ListTile(
@@ -74,7 +141,7 @@ class Home extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            '${[a[index].date!.weekday - 1]}  ${a[index].date!.year}-${a[index].date!.day}-${a[index].date!.month}',
+                            '${[a[index].date!.weekday - 1]}  ${a[index].date!.year}-${a[index].date!.month}-${a[index].date!.day}',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                             ),
@@ -85,15 +152,15 @@ class Home extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                               fontSize: 19,
                               color: a[index].type == 'Income'
-                                  ? Colors.green
-                                  : Colors.red,
+                                  ? Colors.greenAccent
+                                  :kPrimaryColor ,
                             ),
                           ),
                         );
                       },
                       childCount: a.length,
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
@@ -102,7 +169,6 @@ class Home extends StatelessWidget {
       },
     );
   }
-
 
   Widget _head() {
     return Stack(
@@ -113,7 +179,7 @@ class Home extends StatelessWidget {
               width: double.infinity,
               height: 240,
               decoration: BoxDecoration(
-                color: Color(0xff368983),
+                color: Color(0xFFFF8A65), // Updated
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
@@ -129,11 +195,11 @@ class Home extends StatelessWidget {
                       child: Container(
                         height: 40,
                         width: 40,
-                        color: Color.fromRGBO(250, 250, 250, 0.1),
+                        color: kPrimaryLightColor.withOpacity(0.1), // Updated
                         child: Icon(
                           Icons.notification_add_outlined,
                           size: 30,
-                          color: Colors.white,
+                          color: kTextColor, // Updated
                         ),
                       ),
                     ),
@@ -148,7 +214,7 @@ class Home extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
-                            color: Color.fromARGB(255, 224, 223, 223),
+                            color: kPrimaryLightColor, // Updated
                           ),
                         ),
                         Text(
@@ -156,7 +222,7 @@ class Home extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 20,
-                            color: Colors.white,
+                            color: kTextColor, // Updated
                           ),
                         ),
                       ],
@@ -176,13 +242,13 @@ class Home extends StatelessWidget {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Color.fromRGBO(47, 125, 121, 0.3),
+                  color: kSecondaryColor, // Updated
                   offset: Offset(0, 6),
                   blurRadius: 12,
                   spreadRadius: 6,
                 ),
               ],
-              color: Color.fromARGB(255, 47, 125, 121),
+              color: Color(0xFFFF8A65), // Updated
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
@@ -198,12 +264,12 @@ class Home extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
-                          color: Colors.white,
+                          color: kTextColor, // Updated
                         ),
                       ),
                       Icon(
                         Icons.more_horiz,
-                        color: Colors.white,
+                        color: kTextColor, // Updated
                       ),
                     ],
                   ),
@@ -218,7 +284,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
-                          color: Colors.white,
+                          color: kTextColor, // Updated
                         ),
                       ),
                     ],
@@ -234,11 +300,10 @@ class Home extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 13,
-                            backgroundColor:
-                            Color.fromARGB(255, 85, 145, 141),
+                            backgroundColor: kPrimaryLightColor, // Updated
                             child: Icon(
                               Icons.arrow_downward,
-                              color: Colors.white,
+                              color: kTextColor, // Updated
                               size: 19,
                             ),
                           ),
@@ -248,7 +313,7 @@ class Home extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
-                              color: Color.fromARGB(255, 216, 216, 216),
+                              color: kPrimaryLightColor, // Updated
                             ),
                           ),
                         ],
@@ -257,11 +322,10 @@ class Home extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 13,
-                            backgroundColor:
-                            Color.fromARGB(255, 85, 145, 141),
+                            backgroundColor: kPrimaryLightColor, // Updated
                             child: Icon(
                               Icons.arrow_upward,
-                              color: Colors.white,
+                              color: kTextColor, // Updated
                               size: 19,
                             ),
                           ),
@@ -271,7 +335,7 @@ class Home extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
-                              color: Color.fromARGB(255, 216, 216, 216),
+                              color: kPrimaryLightColor, // Updated
                             ),
                           ),
                         ],
@@ -290,7 +354,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 17,
-                          color: Colors.white,
+                          color: kTextColor, // Updated
                         ),
                       ),
                       Text(
@@ -298,7 +362,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 17,
-                          color: Colors.white,
+                          color: kTextColor, // Updated
                         ),
                       ),
                     ],

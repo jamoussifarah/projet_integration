@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projet_d_integration/constants.dart';
 import 'package:projet_d_integration/data/Transaction.dart';
 import 'package:projet_d_integration/Services/service.dart';
 import 'package:projet_d_integration/Services/TransctionService.dart';
@@ -119,7 +120,7 @@ class _Add_ScreenState extends State<Add_Screen> {
               borderSide: BorderSide(width: 2, color: Color(0xffC5C5C5))),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(width: 2, color: Color(0xff368983))),
+              borderSide: BorderSide(width: 2, color: kPrimaryColor)),
         ),
       ),
     );
@@ -151,7 +152,7 @@ class _Add_ScreenState extends State<Add_Screen> {
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
               width: 2,
-              color: Color(0xff368983),
+              color: kPrimaryColor,
             ),
           ),
         ),
@@ -226,13 +227,24 @@ class _Add_ScreenState extends State<Add_Screen> {
             firstDate: DateTime(2020),
             lastDate: DateTime(2100),
           );
+
           if (newDate == null) return;
+
+          // Une fois la date sélectionnée, afficher l'heure
+          TimeOfDay? newTime = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay.now(),
+          );
+
+          if (newTime == null) return;
+
+          // Combinez la date et l'heure pour obtenir la date complète
           setState(() {
-            date = newDate;
+            date = DateTime(newDate.year, newDate.month, newDate.day, newTime.hour, newTime.minute);
           });
         },
         child: Text(
-          'Date : ${date.year} / ${date.day} / ${date.month}',
+          'Date : ${date.year} / ${date.day} / ${date.month} ${date.hour}:${date.minute}',
           style: TextStyle(
             fontSize: 15,
             color: Colors.black,
@@ -260,7 +272,7 @@ class _Add_ScreenState extends State<Add_Screen> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Color(0xff368983),
+          color: kPrimaryColor,
         ),
         width: 120,
         height: 50,
@@ -312,7 +324,7 @@ class _Add_ScreenState extends State<Add_Screen> {
           width: double.infinity,
           height: 240,
           decoration: BoxDecoration(
-            color: Color(0xff368983),
+            color: Color(0xFFFF8A65),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(20),
               bottomRight: Radius.circular(20),

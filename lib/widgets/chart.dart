@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projet_d_integration/constants.dart';
 import 'package:projet_d_integration/data/Transaction.dart';
 import 'package:projet_d_integration/data/listdata.dart';
 import 'package:projet_d_integration/data/utility.dart';
@@ -6,26 +7,14 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Chart extends StatefulWidget {
   int indexx;
-  Chart({Key? key, required this.indexx}) : super(key: key);
+  List<transaction> a = [];
+  Chart({Key? key, required this.indexx,required this.a}) : super(key: key);
 
   @override
   State<Chart> createState() => _ChartState();
 }
 class _ChartState extends State<Chart> {
-  List<transaction> a = [];
 
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
-  void fetchData() async {
-    List<transaction> fetchedTransactions = await geter();
-    setState(() {
-      a = fetchedTransactions;
-    });
-  }
   bool b = true;
   bool j = true;
 
@@ -33,22 +22,22 @@ class _ChartState extends State<Chart> {
   Widget build(BuildContext context) {
     switch (widget.indexx) {
       case 0:
-        a = today(a);
+        widget.a = today(widget.a);
         b = true;
         j = true;
         break;
       case 1:
-        a = week(a);
+        widget.a = week(widget.a);
         b = false;
         j = true;
         break;
       case 2:
-        a = month(a);
+        widget.a = month(widget.a);
         b = false;
         j = true;
         break;
       case 3:
-        a = year(a);
+        widget.a = year(widget.a);
 
         j = false;
         break;
@@ -61,24 +50,24 @@ class _ChartState extends State<Chart> {
         primaryXAxis: CategoryAxis(),
         series: <SplineSeries<SalesData, String>>[
           SplineSeries<SalesData, String>(
-            color: Color.fromARGB(255, 47, 125, 121),
+            color: kPrimaryColor,
             width: 3,
             dataSource: <SalesData>[
-              ...List.generate(time(a!, b ? true : false).length, (index) {
+              ...List.generate(time(widget.a!, b ? true : false).length, (index) {
                 return SalesData(
                     j
                         ? b
-                        ? a![index].date!.hour.toString()
-                        : a![index].date!.day.toString()
-                        : a![index].date!.month.toString(),
+                        ? widget.a![index].date!.hour.toString()
+                        : widget.a![index].date!.day.toString()
+                        : widget.a![index].date!.month.toString(),
                     b
                         ? index > 0
-                        ? time(a!, true)[index] + time(a!, true)[index - 1]
-                        : time(a!, true)[index]
+                        ? time(widget.a!, true)[index] + time(widget.a!, true)[index - 1]
+                        : time(widget.a!, true)[index]
                         : index > 0
-                        ? time(a!, false)[index] +
-                        time(a!, false)[index - 1]
-                        : time(a!, false)[index]);
+                        ? time(widget.a!, false)[index] +
+                        time(widget.a!, false)[index - 1]
+                        : time(widget.a!, false)[index]);
               })
             ],
             xValueMapper: (SalesData sales, _) => sales.year,

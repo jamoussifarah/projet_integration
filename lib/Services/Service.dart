@@ -51,8 +51,9 @@ class Service {
     try {
 
       //DateTime dateTime = DateTime.parse(time as String);
-      String formattedDate = DateFormat('yyyy-MM-dd').format(time);
-      print(formattedDate);
+      /*String formattedDate = DateFormat('yyyy-MM-dd').format(time);
+      print(formattedDate);*/
+      String formattedDate = time.toIso8601String();
       var uri = Uri.parse("http://localhost:5000/transaction");
       Map<String, String> headers = {"Content-Type": "application/json"};
 
